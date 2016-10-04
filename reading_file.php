@@ -56,17 +56,13 @@ if (isset($_POST['sub']))
 		echo "<BR>". $facts."<BR>".$query."<BR>";
 		print_r($New_array);
 							//*- The calculations -*\\
-		$cn = 1;
-		echo "<BR>". $query[cn]. '<BR>';
+		//$cn = 1;
+		//echo "<BR>". $query[cn]. '<BR>';
 		//$pushed_merge = array($New_array, $facts);
-		foreach ($facts as $i)
-		{
-			echo "<BR>". $i."<BR>";
-			if (ctype_alpha($i) && ctype_upper($i))
-			{
-				$New_array[$i] = 1;
-			}
-		}
+		for ($cn = 0; $cn <= strlen($facts); $cn++)
+			if (ctype_alpha($facts[$cn]) && ctype_upper($facts[$cn]))
+				$New_array[$facts[$cn]] = 1;
+				
 		print_r($New_array);
 		/* while($query[cn])
 		 {
