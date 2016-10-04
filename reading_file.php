@@ -1,5 +1,7 @@
 <?php
 
+include_once("processing.php")
+
 //Reading in the file.
 if (isset($_POST['sub']))
 {
@@ -62,8 +64,9 @@ if (isset($_POST['sub']))
 		for ($cn = 0; $cn <= strlen($facts); $cn++)
 			if (ctype_alpha($facts[$cn]) && ctype_upper($facts[$cn]))
 				$New_array[$facts[$cn]] = 1;
-				
+		echo "<br />";
 		print_r($New_array);
+		process_vars($pushed_lines, $New_array, $query);
 		/* while($query[cn])
 		 {
 			if (ctype_alpha($query) && ctype_upper($query)) // checking - array \\
