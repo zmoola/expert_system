@@ -1,6 +1,6 @@
 <?php
 
-include_once("processing.php")
+include_once("processing.php");
 
 //Reading in the file.
 if (isset($_POST['sub']))
@@ -24,9 +24,9 @@ if (isset($_POST['sub']))
 			{
 				$New_line = preg_replace('/#.*/', '', $New_line);
 				if($New_line[0] === '=')
-				$facts = $New_line;
+				$facts = trim($New_line);
 				else if ($New_line[0] === '?')
-				$query = $New_line;
+				$query = trim($New_line);
 				else
 				{
 				$New_line = trim($New_line);
@@ -61,12 +61,12 @@ if (isset($_POST['sub']))
 		//$cn = 1;
 		//echo "<BR>". $query[cn]. '<BR>';
 		//$pushed_merge = array($New_array, $facts);
-		for ($cn = 0; $cn <= strlen($facts); $cn++)
+		for ($cn = 0; $cn < strlen($facts); $cn++)
 			if (ctype_alpha($facts[$cn]) && ctype_upper($facts[$cn]))
 				$New_array[$facts[$cn]] = 1;
 		echo "<br />";
 		print_r($New_array);
-		process_vars($pushed_lines, $New_array, $query);
+		process_vars($New_array, $query, $pushed_lines);
 		/* while($query[cn])
 		 {
 			if (ctype_alpha($query) && ctype_upper($query)) // checking - array \\
