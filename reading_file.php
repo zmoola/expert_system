@@ -24,9 +24,9 @@ if (isset($_POST['sub']))
 			{
 				$New_line = preg_replace('/#.*/', '', $New_line);
 				if($New_line[0] === '=')
-				$facts = trim($New_line);
+				$facts = $New_line;
 				else if ($New_line[0] === '?')
-				$query = trim($New_line);
+				$query = $New_line;
 				else
 				{
 				$New_line = trim($New_line);
@@ -61,12 +61,13 @@ if (isset($_POST['sub']))
 		//$cn = 1;
 		//echo "<BR>". $query[cn]. '<BR>';
 		//$pushed_merge = array($New_array, $facts);
-		for ($cn = 0; $cn < strlen($facts); $cn++)
+		for ($cn = 0; $cn <= strlen($facts); $cn++)
 			if (ctype_alpha($facts[$cn]) && ctype_upper($facts[$cn]))
 				$New_array[$facts[$cn]] = 1;
 		echo "<br />";
 		print_r($New_array);
-		process_vars($New_array, $query, $pushed_lines);
+		process_rules($pushed_lines, $New_array, $query);
+		//$cn = 1;
 		/* while($query[cn])
 		 {
 			if (ctype_alpha($query) && ctype_upper($query)) // checking - array \\
@@ -98,12 +99,12 @@ if (isset($_POST['sub']))
 						}
 					}
 
-					//if (ctype_upper($query_index) && ctype_upper($fact_index))
-					//{
+					if (ctype_upper($query_index) && ctype_upper($fact_index))
+					{
 						//*- Definations -*\\
 
 							//
-					//}
+					}
 		   }
 		 }
 	 }*/
