@@ -5,27 +5,55 @@ function calc($str, $values, $rules)
 	for ($cn = 0; $cn < strlen($str); $cn++)
 	{
 		if (ctype_alpha($str[$cn]) && ctype_upper($str[$cn]))
+		{
+			if (check_val($str[$cn], $values, $rules))
 			{
-				if (check_val($str[$cn]))
-					{
-						if ($str[$cn - 1] === '!')
-							preg_replace('/!'.$str[$cn].'/', '0', $str);
-						else
-							preg_replace('/'.$str[$cn].'/', '1', $str);
-					}
-				else
+				if ($str[$cn - 1] === '!')
 				{
-					if ($str[$cn - 1] === '!')
-							preg_replace('/!'.$str[$cn].'/', '1', $str);
-					else
-						preg_replace('/'.$str[$cn].'/', '0', $str);
+					$str = trim(preg_replace('/!'.$str[$cn].'/', $str[$cn], $str));
+					$str[$cn - 1] = 0;
 				}
+				else
+					$str[$cn] = 1;
 			}
+			else
+			{
+				if ($str[$cn - 1] === '!')
+				{
+					$str = trim(preg_replace('/!'.$str[$cn].'/', $str[$cn], $str));
+					$str[$cn - 1] = 1;
+				}
+				else
+					$str[$cn] = 0;
+			}
+		}
 	}
 	for ($cn = 0; $cn < strlen($str); $cn++)
 	{
-
+		if ($str[$cn] === '+')
+		{
+			if (($str[$cn -1] === 1) && ($str[$cn +1] === 1))
+				$rs = 1;
+			else
+				$rs = 0;
+		}
+		else if ($str[$cn] === '|')
+		{
+			if (($str[$cn -1] === 1) || ($str[$cn +1] === 1))
+				$rs = 1;
+			else
+				$rs = 0;
+		}
+		else if ($str[$cn] === '^')
+		{
+			if ((($str[$cn -1] === 1) && ($str[$cn +1] !== 1)) || 
+			(($str[$cn -1] !== 1) && ($str[$cn +1] === 1)))
+				$rs = 1;
+			else
+				$rs = 0;
+		}
 	}
+	return ($rs);
 }
 /* do backward reference */
 function do_rules($query, $values, $rules)
@@ -34,7 +62,6 @@ function do_rules($query, $values, $rules)
 	foreach ($rules as $str)
 	if (preg_match('/>(.*)'.$query.'/', $str))
 	{
-		echo $str."<br />";
 		if (preg_match('/</', $str))
 			$end = strpos($str, '<');
 		else
@@ -43,6 +70,8 @@ function do_rules($query, $values, $rules)
 		if (preg_match('/</', $str))
 			break;
 	}
+	if ($rt === 1)
+		$values[$query] = 1;
 	return ($rt);
 }
 /* check value if true, else read rules */
