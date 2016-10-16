@@ -3,15 +3,28 @@
  								// isolate results
 
 
-// function process_rules($pushed_lines, $New_array, $query)
-// {
-//     for ($cn = 0; $cn < strlen($query); $cn++)
-// 			if (ctype_alpha($query[$cn]) && ctype_upper($query[$cn]))
-//				if ($New_array[$query[$cn]] = 1)
-//					echo $query[$cn]. "is true";
-//				else
-//					echo $query[$cn]. "is false";
-// }
+function do_rules()
+{
+
+}
+/* check value if true, else read rules */
+function check_val($query, $values, $rules)
+{
+	if ($New_array[$query] === 1)
+	return (1);
+	else
+	return (0);
+}
+/* send values for checking */
+function process_rules($pushed_lines, $New_array, $query)
+{
+   for ($cn = 0; $cn < strlen($query); $cn++)
+   	if (ctype_alpha($query[$cn]) && ctype_upper($query[$cn]))
+	   if (check_val($query[$cn], $New_array, $pushed_lines))
+	   		echo $query[$cn]. "is true";
+		else
+			echo $query[$cn]. "is false";
+}
 
 								//Results\\
 //$results = array();
