@@ -1,31 +1,71 @@
 <?php
-
- 								// isolate results
-
-
-function do_rules()
+ 								// isolate result
+function calc($str, $values, $rules)
 {
+	for ($cn = 0; $cn < strlen($str); $cn++)
+	{
+		if (ctype_alpha($str[$cn]) && ctype_upper($str[$cn]))
+			{
+				if (check_val($str[$cn]))
+					{
+						if ($str[$cn - 1] === '!')
+							preg_replace('/!'.$str[$cn].'/', '0', $str);
+						else
+							preg_replace('/'.$str[$cn].'/', '1', $str);
+					}
+				else
+				{
+					if ($str[$cn - 1] === '!')
+							preg_replace('/!'.$str[$cn].'/', '1', $str);
+					else
+						preg_replace('/'.$str[$cn].'/', '0', $str);
+				}
+			}
+	}
+	for ($cn = 0; $cn < strlen($str); $cn++)
+	{
 
+	}
+}
+/* do backward reference */
+function do_rules($query, $values, $rules)
+{
+	$rt = 0;
+	foreach ($rules as $str)
+	if (preg_match('/>(.*)'.$query.'/', $str))
+	{
+		echo $str."<br />";
+		if (preg_match('/</', $str))
+			$end = strpos($str, '<');
+		else
+			$end = strpos($str, '=');
+		$rt = calc(substr($str, 0, $end), $values, $rules);
+		if (preg_match('/</', $str))
+			break;
+	}
+	return ($rt);
 }
 /* check value if true, else read rules */
 function check_val($query, $values, $rules)
 {
-	if ($New_array[$query] === 1)
-	return (1);
+	if ($values[$query] === 1)
+		return (1);
 	else
-	return (0);
+		return (do_rules($query, $values, $rules));
 }
 /* send values for checking */
-function process_rules($pushed_lines, $New_array, $query)
+function process_rules($query, $values, $rules)
 {
-   for ($cn = 0; $cn < strlen($query); $cn++)
-   	if (ctype_alpha($query[$cn]) && ctype_upper($query[$cn]))
-	   if (check_val($query[$cn], $New_array, $pushed_lines))
-	   		echo $query[$cn]. "is true";
-		else
-			echo $query[$cn]. "is false";
+	for ($cn = 0; $cn < strlen($query); $cn++)
+		if (ctype_alpha($query[$cn]) && ctype_upper($query[$cn]))
+			{
+				if (check_val($query[$cn], $values, $rules))
+	   				echo $query[$cn]. " is true<br />";
+				else
+					echo $query[$cn]. " is false<br />";
+			}
 }
-
+	
 								//Results\\
 //$results = array();
 // foreach ($pushed_line as $rules)

@@ -1,5 +1,4 @@
 <?php
-
 include_once("processing.php");
 
 //Reading in the file.
@@ -53,20 +52,11 @@ if (isset($_POST['sub']))
     		$len = strpos($string, $end, $ini) - $ini;
     		return substr($string, $ini, $len);
 		}
-
-		print_r($pushed_lines);
-		echo "<BR>". $facts."<BR>".$query."<BR>";
-		print_r($New_array);
 							//*- The calculations -*\\
-		//$cn = 1;
-		//echo "<BR>". $query[cn]. '<BR>';
-		//$pushed_merge = array($New_array, $facts);
 		for ($cn = 0; $cn <= strlen($facts); $cn++)
 			if (ctype_alpha($facts[$cn]) && ctype_upper($facts[$cn]))
 				$New_array[$facts[$cn]] = 1;
-		echo "<br />";
-		print_r($New_array);
-		process_rules($pushed_lines, $New_array, $query);
+		process_rules($query, $New_array, $pushed_lines);
 		//$cn = 1;
 		/* while($query[cn])
 		 {
